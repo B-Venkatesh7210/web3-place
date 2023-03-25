@@ -9,16 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.11",
+    "@mui/material": "^5.11.14",
     "@rainbow-me/rainbowkit": "^0.8.1",
     "ethers": "^5.7.2",
+    "moment": "^2.29.4",
     "next": "13.2.4",
     "react": "18.2.0",
+    "react-color": "^2.19.3",
+    "react-countdown": "^2.3.5",
+    "react-datepicker": "^4.10.0",
     "react-dom": "18.2.0",
-    "wagmi": "^0.12.1"
+    "wagmi": "^0.12.2"
   },
   "devDependencies": {
     "@types/node": "18.15.3",
     "@types/react": "18.0.28",
+    "@types/react-color": "^3.0.6",
+    "@types/react-datepicker": "^4.10.0",
     "@types/react-dom": "18.0.11",
     "autoprefixer": "^10.4.14",
     "eslint": "8.36.0",

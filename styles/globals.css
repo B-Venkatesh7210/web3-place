@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
+html {
+  background: #e2dbc2;
+}
 body {
   padding: 0;
   margin: 0;
@@ -17,4 +19,36 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.textCyan {
+  color: #08bcd4;
+  -webkit-text-stroke: 1.5px black;
+}
+
+.textCyanSmall {
+  color: #08bcd4;
+  -webkit-text-stroke: 0.5px black;
+}
+
+.button {
+  border: 3px solid #000000;
+  border-radius: 20px;
+}
+
+.square{
+  animation-name: colorChange;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes colorChange {
+  0%{
+    background-color: black;
+    opacity: 1;
+  }
+  50%{
+    background-color: black;
+    opacity: 0.8;
+  }
 }

@@ -14,27 +14,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        cyan: "#76DDDD",
-        grey: "#B7B7B7",
+        cyan: "#08BCD4",
+        yellow: "#D0D408",
+        cyan2: "#C8F1F1"
       },
       fontFamily: {
-        sansationB: [
-          "SansationB",
-          "Open Sans",
-          ...defaultTheme.fontFamily.sans,
-        ],
-        sansationR: [
-          "SansationR",
-          "Open Sans",
-          ...defaultTheme.fontFamily.sans,
-        ],
-        gothamBook: [
-          "GothamBook",
-          "Open Sans",
-          ...defaultTheme.fontFamily.sans,
-        ],
-        gothamM: ["GothamM", "Open Sans", ...defaultTheme.fontFamily.sans],
-        gothamB: ["GothamB", "Open Sans", ...defaultTheme.fontFamily.sans],
+        guava: ["Guava Candy", "sans-serif"],
+        gunplay: ["Gunplay", "sans-serif"],
+        display: ["group-hover"],
       },
     },
   },

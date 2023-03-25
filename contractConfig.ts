@@ -1,7 +1,9 @@
 import { IContractConfig } from "./utils/types"
 
+//0x64ec32D236Ce267155Ba240A515d026E6D859CB4
+
 const contractConfig: IContractConfig = {
-    "address": "0xa1f6018492897903085af7192a8bB8feD9333F7B",
+    "address": "0x51562712E2f4F132623965D5AB79dEF4a9920D05",
     "abi": [
         {
             "inputs": [],
@@ -87,6 +89,19 @@ const contractConfig: IContractConfig = {
             "name": "createCanvas",
             "outputs": [],
             "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "_canvasId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "endCanvas",
+            "outputs": [],
+            "stateMutability": "payable",
             "type": "function"
         },
         {
@@ -294,19 +309,6 @@ const contractConfig: IContractConfig = {
         },
         {
             "inputs": [],
-            "name": "canvas_size",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
             "name": "canvasId",
             "outputs": [
                 {
@@ -339,6 +341,107 @@ const contractConfig: IContractConfig = {
                     "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getAllCanvas",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "uint256",
+                            "name": "canvasId",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "isLive",
+                            "type": "bool"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "startTime",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "deadline",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "canvasBalance",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "address[]",
+                            "name": "painters",
+                            "type": "address[]"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "host",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address[]",
+                            "name": "prizeWinners",
+                            "type": "address[]"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "prizeAmount",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct web3Place.CanvasReturn[]",
+                    "name": "",
+                    "type": "tuple[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "_canvasId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getAllSquares",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "uint256",
+                            "name": "id",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "color",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "price",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "painter",
+                            "type": "address"
+                        }
+                    ],
+                    "internalType": "struct web3Place.Square[]",
+                    "name": "",
+                    "type": "tuple[]"
                 }
             ],
             "stateMutability": "view",
@@ -380,6 +483,11 @@ const contractConfig: IContractConfig = {
             "outputs": [
                 {
                     "components": [
+                        {
+                            "internalType": "uint256",
+                            "name": "id",
+                            "type": "uint256"
+                        },
                         {
                             "internalType": "string",
                             "name": "color",
@@ -451,6 +559,16 @@ const contractConfig: IContractConfig = {
                     "internalType": "uint256",
                     "name": "canvasBalance",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "host",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "prizeAmount",
+                    "type": "uint256"
                 }
             ],
             "stateMutability": "view",
@@ -470,6 +588,19 @@ const contractConfig: IContractConfig = {
                 }
             ],
             "name": "isApprovedForAll",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "isLive",
             "outputs": [
                 {
                     "internalType": "bool",
@@ -627,6 +758,30 @@ const contractConfig: IContractConfig = {
                     "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "userToSquares",
+            "outputs": [
+                {
+                    "internalType": "int256",
+                    "name": "",
+                    "type": "int256"
                 }
             ],
             "stateMutability": "view",

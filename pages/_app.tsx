@@ -1,20 +1,33 @@
 import "../styles/globals.css";
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import "@rainbow-me/rainbowkit/styles.css";
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import {
-  getDefaultWallets,
-  RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
-import { configureChains, createClient, useAccount, useContract, useProvider, useSigner, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum, optimismGoerli } from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public';
+  configureChains,
+  createClient,
+  useAccount,
+  useContract,
+  useProvider,
+  useSigner,
+  WagmiConfig,
+} from "wagmi";
+import {
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+  optimismGoerli,
+  polygonMumbai,
+} from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
 import Context from "../context";
-import contractConfig from "../contractConfig"
+import contractConfig from "../contractConfig";
 import { ethers } from "ethers";
+import { ICanvasData, ISquareData } from "../utils/types";
 
 const { chains, provider } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, optimismGoerli],
+  [mainnet, polygon, optimism, arbitrum, optimismGoerli, polygonMumbai],
   [publicProvider()]
 );
 
@@ -30,13 +43,14 @@ const wagmiClient = createClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  
   const currProvider = useProvider();
   const address = useAccount();
+  const squareSize: number = 2500;
   const [signer, setSigner] = useState();
   const [contractEthers, setContractEthers] = useState();
-
-
+  const [canvas, setCanvas] = useState<ICanvasData>();
+  const [squares, setSquares] = useState<ISquareData[]>();
+  const [isLive, setIsLive] = useState<boolean>(false);
 
   useEffect(() => {
     const settingContract = async () => {
@@ -47,7 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       );
       setContractEthers(contractEthers);
     };
-    if ((signer)) {
+    if (signer) {
       settingContract();
     }
   }, [currProvider, signer]);
@@ -56,13 +70,28 @@ function MyApp({ Component, pageProps }: AppProps) {
     address: contractConfig.address,
     abi: contractConfig.abi,
     signerOrProvider: currProvider,
-  })
+  });
 
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-      <Context.Provider value={{contract, contractEthers, setContractEthers, signer, setSigner}}>
-        <Component {...pageProps} />
+        <Context.Provider
+          value={{
+            contract,
+            contractEthers,
+            setContractEthers,
+            squareSize,
+            signer,
+            setSigner,
+            canvas,
+            setCanvas,
+            squares,
+            setSquares,
+            isLive,
+            setIsLive
+          }}
+        >
+          <Component {...pageProps} />
         </Context.Provider>
       </RainbowKitProvider>
     </WagmiConfig>
