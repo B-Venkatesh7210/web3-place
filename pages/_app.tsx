@@ -13,12 +13,7 @@ import {
   WagmiConfig,
 } from "wagmi";
 import {
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
   optimismGoerli,
-  polygonMumbai,
 } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import Context from "../context";
@@ -27,7 +22,7 @@ import { ethers } from "ethers";
 import { ICanvasData, ISquareData } from "../utils/types";
 
 const { chains, provider } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, optimismGoerli, polygonMumbai],
+  [optimismGoerli],
   [publicProvider()]
 );
 

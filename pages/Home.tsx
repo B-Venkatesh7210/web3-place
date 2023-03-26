@@ -43,56 +43,55 @@ const Home = () => {
   useEffect(() => {
     context.setSigner(signer);
     const getContractData = async () => {
-      if (chain.name != "optimismGoerli") {
-        setLoading(true);
-        const contractEthers = new ethers.Contract(
-          contractConfig.address,
-          contractConfig.abi,
-          signer
+      setLoading(true);
+      const contractEthers = new ethers.Contract(
+        contractConfig.address,
+        contractConfig.abi,
+        signer
+      );
+      context.setContractEthers(contractEthers);
+      const isLive: boolean = await contractEthers.isLive();
+      console.log(isLive);
+      setIsLive(isLive);
+      context.setIsLive(isLive);
+      const canvasIdBig = await contractEthers.canvasId();
+      const canvasId: number = canvasIdBig.toNumber() - 1;
+      if (canvasId >= 0 && isLive) {
+        const canvas = await contractEthers.idToCanvas(canvasId);
+        console.log(canvas);
+        context.setEndTime(canvas.deadline.toNumber());
+        const yourSquares: BigNumber = await contractEthers.userToSquares(
+          address,
+          BigNumber.from(canvasId)
         );
-        context.setContractEthers(contractEthers);
-        const isLive: boolean = await contractEthers.isLive();
-        console.log(isLive);
-        setIsLive(isLive);
-        context.setIsLive(isLive);
-        const canvasIdBig = await contractEthers.canvasId();
-        const canvasId: number = canvasIdBig.toNumber() - 1;
-        if (canvasId >= 0 && isLive) {
-          const canvas = await contractEthers.idToCanvas(canvasId);
-          console.log(canvas);
-          context.setEndTime(canvas.deadline.toNumber());
-          const yourSquares: BigNumber = await contractEthers.userToSquares(
-            address,
-            BigNumber.from(canvasId)
-          );
-          console.log(yourSquares);
-          setYourSquares(yourSquares.toString());
-          const currCanvas: ICanvasData = {
-            canvasId: BigNumber.from(canvas.canvasId),
-            isLive: canvas.isLive,
-            startTime: moment(
-              new Date(canvas.startTime.toNumber() * 1000)
-            ).format("LL"),
-            deadline: moment(
-              new Date(canvas.deadline.toNumber() * 1000)
-            ).format("LL"),
-            canvasBalance: BigNumber.from(canvas.canvasBalance),
-            painters: canvas.painters,
-            host: canvas.host,
-            prizeWinners: canvas.prizeWinners,
-            prizeAmount: BigNumber.from(canvas.prizeAmount),
-          };
-          setCurrCanvas(currCanvas);
-          context.setCanvas(currCanvas);
-          console.log(currCanvas);
-          const squares = await contractEthers.getAllSquares(canvasId);
-          context.setSquares(squares);
-          setAllSquares(squares);
-          console.log(squares);
-        }
-        setLoading(false);
+        console.log(yourSquares);
+        setYourSquares(yourSquares.toString());
+        const currCanvas: ICanvasData = {
+          canvasId: BigNumber.from(canvas.canvasId),
+          isLive: canvas.isLive,
+          startTime: moment(
+            new Date(canvas.startTime.toNumber() * 1000)
+          ).format("LL"),
+          deadline: moment(new Date(canvas.deadline.toNumber() * 1000)).format(
+            "LL"
+          ),
+          canvasBalance: BigNumber.from(canvas.canvasBalance),
+          painters: canvas.painters,
+          host: canvas.host,
+          prizeWinners: canvas.prizeWinners,
+          prizeAmount: BigNumber.from(canvas.prizeAmount),
+        };
+        setCurrCanvas(currCanvas);
+        context.setCanvas(currCanvas);
+        console.log(currCanvas);
+        const squares = await contractEthers.getAllSquares(canvasId);
+        context.setSquares(squares);
+        setAllSquares(squares);
+        console.log(squares);
       }
+      setLoading(false);
     };
+
     if (signer) {
       getContractData();
     }
