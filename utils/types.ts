@@ -38,13 +38,17 @@ export interface ITimerData {
 }
 
 export interface ISquareCompData {
-  key: number;
+  key1: number;
   square: ISquareData;
   selectedSquares: ISquareData[];
   setSelectedSquares: any;
+  setAllCheckStatus: any;
 }
 
 export interface ISelectedSquare {
-  key: number;
+  key1: number;
+  selectedSquares: ISquareData[];
   selectedSquare: ISquareData;
+  setSelectedSquares: any;
+  allCheck: Function;
 }

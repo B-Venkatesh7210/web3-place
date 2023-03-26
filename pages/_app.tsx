@@ -50,7 +50,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [contractEthers, setContractEthers] = useState();
   const [canvas, setCanvas] = useState<ICanvasData>();
   const [squares, setSquares] = useState<ISquareData[]>();
-  const [isLive, setIsLive] = useState<boolean>(false);
+  const [isLive, setIsLive] = useState<boolean>(false);  
+  const [endTime, setEndTime] = useState<number>()
 
   useEffect(() => {
     const settingContract = async () => {
@@ -88,7 +89,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             squares,
             setSquares,
             isLive,
-            setIsLive
+            setIsLive,
+            endTime,
+            setEndTime
           }}
         >
           <Component {...pageProps} />
