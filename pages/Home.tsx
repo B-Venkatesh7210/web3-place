@@ -20,6 +20,7 @@ import Modal from "react-modal";
 import Image from "next/image";
 import Logo from "../assets/logos/Logo.png";
 import LogoText from "../assets/logos/LogoText.png";
+import { useNetwork } from "wagmi";
 
 const Home = () => {
   const router = useRouter();
@@ -33,6 +34,7 @@ const Home = () => {
   const [buttonCheck, setButtonCheck] = useState<boolean>(false);
   const context: any = useContext(Context);
   const { data: signer, isError, isLoading } = useSigner();
+  const { chain, chains } = useNetwork();
   const { address, isConnected } = useAccount();
   const [allCheckStatus, setAllCheckStatus] = useState<boolean>(false);
   const [yourSquares, setYourSquares] = useState<string>("0");
@@ -41,53 +43,55 @@ const Home = () => {
   useEffect(() => {
     context.setSigner(signer);
     const getContractData = async () => {
-      setLoading(true);
-      const contractEthers = new ethers.Contract(
-        contractConfig.address,
-        contractConfig.abi,
-        signer
-      );
-      context.setContractEthers(contractEthers);
-      const isLive: boolean = await contractEthers.isLive();
-      console.log(isLive);
-      setIsLive(isLive);
-      context.setIsLive(isLive);
-      const canvasIdBig = await contractEthers.canvasId();
-      const canvasId: number = canvasIdBig.toNumber() - 1;
-      if (canvasId >= 0 && isLive) {
-        const canvas = await contractEthers.idToCanvas(canvasId);
-        console.log(canvas);
-        context.setEndTime(canvas.deadline.toNumber());
-        const yourSquares: BigNumber = await contractEthers.userToSquares(
-          address,
-          BigNumber.from(canvasId)
+      if (chain.name != "optimismGoerli") {
+        setLoading(true);
+        const contractEthers = new ethers.Contract(
+          contractConfig.address,
+          contractConfig.abi,
+          signer
         );
-        console.log(yourSquares);
-        setYourSquares(yourSquares.toString());
-        const currCanvas: ICanvasData = {
-          canvasId: BigNumber.from(canvas.canvasId),
-          isLive: canvas.isLive,
-          startTime: moment(
-            new Date(canvas.startTime.toNumber() * 1000)
-          ).format("LL"),
-          deadline: moment(new Date(canvas.deadline.toNumber() * 1000)).format(
-            "LL"
-          ),
-          canvasBalance: BigNumber.from(canvas.canvasBalance),
-          painters: canvas.painters,
-          host: canvas.host,
-          prizeWinners: canvas.prizeWinners,
-          prizeAmount: BigNumber.from(canvas.prizeAmount),
-        };
-        setCurrCanvas(currCanvas);
-        context.setCanvas(currCanvas);
-        console.log(currCanvas);
-        const squares = await contractEthers.getAllSquares(canvasId);
-        context.setSquares(squares);
-        setAllSquares(squares);
-        console.log(squares);
+        context.setContractEthers(contractEthers);
+        const isLive: boolean = await contractEthers.isLive();
+        console.log(isLive);
+        setIsLive(isLive);
+        context.setIsLive(isLive);
+        const canvasIdBig = await contractEthers.canvasId();
+        const canvasId: number = canvasIdBig.toNumber() - 1;
+        if (canvasId >= 0 && isLive) {
+          const canvas = await contractEthers.idToCanvas(canvasId);
+          console.log(canvas);
+          context.setEndTime(canvas.deadline.toNumber());
+          const yourSquares: BigNumber = await contractEthers.userToSquares(
+            address,
+            BigNumber.from(canvasId)
+          );
+          console.log(yourSquares);
+          setYourSquares(yourSquares.toString());
+          const currCanvas: ICanvasData = {
+            canvasId: BigNumber.from(canvas.canvasId),
+            isLive: canvas.isLive,
+            startTime: moment(
+              new Date(canvas.startTime.toNumber() * 1000)
+            ).format("LL"),
+            deadline: moment(
+              new Date(canvas.deadline.toNumber() * 1000)
+            ).format("LL"),
+            canvasBalance: BigNumber.from(canvas.canvasBalance),
+            painters: canvas.painters,
+            host: canvas.host,
+            prizeWinners: canvas.prizeWinners,
+            prizeAmount: BigNumber.from(canvas.prizeAmount),
+          };
+          setCurrCanvas(currCanvas);
+          context.setCanvas(currCanvas);
+          console.log(currCanvas);
+          const squares = await contractEthers.getAllSquares(canvasId);
+          context.setSquares(squares);
+          setAllSquares(squares);
+          console.log(squares);
+        }
+        setLoading(false);
       }
-      setLoading(false);
     };
     if (signer) {
       getContractData();
