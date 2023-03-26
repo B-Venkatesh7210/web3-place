@@ -331,8 +331,8 @@ const Home = () => {
                     endCanvas();
                   }}
                   disabled={
-                    isLive &&
-                    parseInt((Date.now() / 1000).toString()) > context.endTime
+                    !(isLive &&
+                    parseInt((Date.now() / 1000).toString()) > context.endTime)
                   }
                 ></Button>
               </div>
